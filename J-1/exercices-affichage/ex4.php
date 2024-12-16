@@ -26,9 +26,14 @@
         <ul>
             <?php 
             foreach ($users as $user) {
-                $status = $user["age"] >= 18 ? "majeur" : "mineur";
+                if ($user["age"] >= 18) {
+                    $status = "majeur";
+                } else {
+                    $status = "mineur";
+                }
                 echo "<li>" . $user["firstName"] . " " . $user["lastName"] . " est " . $status . ".</li>";
             }
+            
             ?>
         </ul>
     </body>

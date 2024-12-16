@@ -18,8 +18,8 @@
         </h1>
         <ul>
             <?php 
-                foreach ($grades as $subject => $notes) {
-                    echo "<li>$subject : ";
+                foreach ($grades as $matieres => $notes) {
+                    echo "<li>$matieres : ";
                     foreach ($notes as $note) {
                         echo $note . " ";
                     }

@@ -1,9 +1,4 @@
 <?php
-function moyenneNotes($array, $precision = 2) {
-    $sum = array_sum($array);
-    $average = round($sum / count($array), $precision);
-    return $average;
-  }
 
 $students = [
     [
@@ -38,11 +33,18 @@ $students = [
     ]
 ];
 
+function computeAverage(array $grades) : float
+{
+    $sum = 0;
+    
+    foreach($grades as $grade)
+    {
+        $sum += $grade;
+    }
+    
+    return $sum / count($grades);
+}
 
-foreach ($students as $key => $student) {
-
-    $students[$key]['average'] = moyenneNotes($student['grades']);
-};
 ?>
 
 <!doctype html>
@@ -60,38 +62,44 @@ foreach ($students as $key => $student) {
             Liste des étudiants
         </h2>
         <ul id="students">
-            <?php 
-                foreach ($students as $student) {
-                    if ($student['average'] < 10) {
-                        $studentArticle = "red";
-                    } elseif ($student['average'] <= 13) {
-                        $studentArticle = "orange";
-                    } else {
-                        $studentArticle = "green";
-                    }
-                    echo "<li>
-                            <article class='$studentArticle'>
-                                <header>
-                                    <h1>{$student['firstName']} {$student['lastName']}</h1>
-                                </header>
-                                <section>
-                                    <h2>Notes :</h2>
-                                    <ul>";
-                                        foreach ($student['grades'] as $grade) {
-                                            echo "<li>{$grade}</li>";
-                                        }
-                    echo "      </ul>
-                                </section>
-                                <footer>
-                                    <h3>Moyenne des notes de l'étudiant: {$student['average']}</h3>
-                                </footer>
-                            </article>
-                        </li>";
+            <?php foreach($students as $student) { 
+                $average = computeAverage($student["grades"]);
+                if( $average > 13)
+                {
+                    $class = "green";
+                }
+                else if ($average >= 10)
+                {
+                    $class = "orange";
+                }
+                else
+                {
+                    $class = "red";
                 }
             ?>
+                <li>
+                    <article class="<?= $class ?>">
+                        <header>
+                            <h1><?php echo "{$student["firstName"]} {$student["lastName"]}" ?></h1>
+                        </header>
+                        <section>
+                            <h2>Notes : </h2>
+                            <ul>
+                                <?php foreach($student["grades"] as $grade) { ?>
+                                    <li>
+                                        <?= $grade ?>
+                                    </li>
+                                <?php } ?>
+                            </ul>
+                        </section>
+                        <footer>
+                            <h3>Moyenne des notes de l'étudiant : <?php echo computeAverage($student["grades"]); ?></h3>
+                        </footer>
+                    </article>
+                </li>
+            <?php } ?>
         </ul>
     </body>
 </html>
-
 
 

@@ -1,6 +1,6 @@
 <?php
 
-$pageTitle = "Formulaire de connexion";
+$pageTitle = "Formulaire d'inscription";
 
 require "templates/layout.phtml";
 

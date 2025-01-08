@@ -1,30 +1,19 @@
 <?php
+require "connexion.php";
 
-require 'connexion.php';
+$street = $_POST['street'];
+$city = $_POST['city'];
+$zipcode = $_POST['zipcode'];
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $street = $_POST['street'];
-    $city = $_POST['city'];
-    $zipcode = $_POST['zipcode'];
+$query = $db->prepare(
+  "INSERT INTO address (street, city, zipcode) 
+  VALUES (:street, :city, :zipcode)"
+);
 
-    if (empty($street) || empty($city) || empty($zipcode)) {
-        echo "Tous les champs doivent être remplis.";
-    } else {
-        $query = $db->prepare(
-            'INSERT INTO address (street, city, zipcode) 
-             VALUES (:street, :city, :zipcode)'
-        );
-
-        $query->execute([
-            'street' => $street,
-            'city' => $city,
-            'zipcode' => $zipcode
-        ]);
-
-        echo "Adresse ajoutée avec succès !";
-    }
-} else {
-    echo "Veuillez soumettre le formulaire.";
-}
+$parameters = [
+  'street' => $street,
+  'city' => $city,
+  'zipcode' => $zipcode
+];
+$query->execute($parameters);
 ?>
-

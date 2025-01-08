@@ -2,8 +2,6 @@
 
 require 'connexion.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    
     $id = $_POST['id'];
     $street = $_POST['street'];
     $city = $_POST['city'];
@@ -23,5 +21,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     ]);
 
     echo "Adresse mise à jour avec succès !";
-}
 ?>

@@ -4,8 +4,8 @@ $port = "3306";
 $dbname = "thomasriou_phpj5";
 $connexionString = "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8";
 
-$user = "votre_username";
-$password = "votre_password";
+$user = "thomasriou";
+$password = "e11d02ae58dcb7466cf6407c21138658";
 
 $db = new PDO(
     $connexionString,

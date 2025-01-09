@@ -15,5 +15,6 @@ session_start();
         <input type="text" id="pseudo" name="pseudo" required>
         <button type="submit">Envoyer</button>
     </form>
+    <a href="logout.php">Déconnexion</a>
 </body>
 </html>

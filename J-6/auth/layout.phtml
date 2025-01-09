@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon site web</title>
+</head>
+<body>
+    <header>
+        <h1>Bienvenue sur notre site</h1>
+        <nav>
+            <a href="index.php?route=home">Accueil</a>
+            <a href="index.php?route=inscription">Inscription</a>
+            <a href="index.php?route=connexion">Connexion</a>
+        </nav>
+    </header>
+
+    <main>
+        <?php
+    
+        if ($route === NULL || $route === 'home') {
+            require 'home.phtml';
+        } elseif ($route === 'inscription') {
+            require 'register.phtml';
+        } elseif ($route === 'connexion') {
+            require 'login.phtml';
+        }
+        ?>
+    </main>
+</body>
+</html>

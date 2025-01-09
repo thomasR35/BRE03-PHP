@@ -1,18 +1,16 @@
-<?php
-session_start(); 
-?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accueil</title>
-</head>
-<body>
-    <h1>Bienvenue <?php echo $_SESSION['user']['first_name']; ?> <?php echo $_SESSION['user']['last_name']; ?></h1>
-    
+<h2>Page d'accueil</h2>
+
+<?php if (isset($_SESSION['user'])): ?>
+    <h1>Bonjour, <?= htmlspecialchars($_SESSION['user']['first_name']) ?> <?= htmlspecialchars($_SESSION['user']['last_name']) ?> !</h1>
+
     <form action="logout.php" method="post">
         <button type="submit">Déconnexion</button>
     </form>
-</body>
-</html>
+
+<?php else: ?>
+    <p>Bienvenue sur notre site. Veuillez vous inscrire ou vous connecter.</p>
+
+    <a href="index.php?route=inscription">Inscription</a> | 
+    <a href="index.php?route=connexion">Connexion</a>
+<?php endif; ?>
+

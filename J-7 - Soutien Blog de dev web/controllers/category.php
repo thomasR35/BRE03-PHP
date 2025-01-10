@@ -8,8 +8,10 @@ function categoryPage() : void
     require "managers/category_manager.php";
 
     // remplacez ce code pour appeler la fonction qui permet de récupérer tous les articles d'une catégorie
-    $categoryPosts = null;
-
+    $categoryPosts = getPostsForCategory($categoryId);
+    
+    $category = getCategory($categoryId);
+    
     $template = "templates/category.phtml";
     require "templates/layout.phtml";
 }

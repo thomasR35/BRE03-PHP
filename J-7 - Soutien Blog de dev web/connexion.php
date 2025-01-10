@@ -19,4 +19,4 @@ $db = new PDO(
     $password
 );
 
-var_dump($db);
+// var_dump($db);

@@ -1,0 +1,18 @@
+<header>
+    <nav>
+        <ul>
+            <li><a href="/">Accueil</a></li>
+            {% if user %}
+                <li><a href="/profile">Profil</a></li>
+                <li>
+                    <form action="/logout" method="post" style="display: inline;">
+                        <button type="submit">Déconnexion</button>
+                    </form>
+                </li>
+            {% else %}
+                <li><a href="/login">Connexion</a></li>
+                <li><a href="/register">Inscription</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</header>

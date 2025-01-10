@@ -1,0 +1,14 @@
+{% extends "partials/base.twig" %}
+
+{% block content %}
+<h1>Bienvenue sur la page d'accueil</h1>
+
+{% if user %}
+    <p>Bonjour, {{ user.first_name }} {{ user.last_name }} !</p>
+    <form action="/logout" method="post">
+        <button type="submit">Déconnexion</button>
+    </form>
+{% else %}
+    <p>Bienvenue sur notre site. Veuillez vous <a href="/login">connecter</a> ou vous <a href="/register">inscrire</a>.</p>
+{% endif %}
+{% endblock %}

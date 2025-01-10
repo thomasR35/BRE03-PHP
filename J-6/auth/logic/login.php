@@ -7,11 +7,11 @@ if (isset($_POST['email'], $_POST['password'])) {
     $password = $_POST['password'];
 
     if (isset($db)) {
-        $stmt = $db->prepare("SELECT * FROM users WHERE email = ?");
+        $query = $db->prepare("SELECT * FROM users WHERE email = ?");
         
-        $stmt->execute([$email]);
+        $query->execute([$email]);
 
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $user = $query->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
             if (password_verify($password, $user['password'])) {

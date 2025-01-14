@@ -13,6 +13,13 @@
     <body class="container-fluid">
         <main class="p-5">
             <h1 class="text-center">Base Utilisateurs POO</h1>
+            
+            <?php if (isset($_GET['message'])): ?>
+                <div class="alert alert-success">
+                    <?php echo htmlspecialchars($_GET['message']); ?>
+                </div>
+            <?php endif; ?>
+
             <section class="row">
                 <?php require "user-list.phtml" ?>
                 <?php require "user-form.phtml" ?>

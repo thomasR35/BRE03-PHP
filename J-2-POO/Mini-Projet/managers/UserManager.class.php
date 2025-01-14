@@ -56,7 +56,7 @@ class UserManager {
     }
 
     public function saveUser(User $user): void {
-        $query = $this->db->prepare("INSERT INTO users (username, email, password, role) VALUES (:username, :email, :password, :role)");
+        $query = $this->db->prepare("INSERT INTO users (username, email, password, role, created_at) VALUES (:username, :email, :password, :role, NOW())");
         $hashedPassword = password_hash($user->getPassword(), PASSWORD_DEFAULT);
         $query->execute([
             'username' => $user->getUsername(),

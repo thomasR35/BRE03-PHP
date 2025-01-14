@@ -1,0 +1,70 @@
+<?php 
+require "logic/display-users.php";
+require_once __DIR__ . '/../managers/UserManager.class.php';
+
+
+$userManager = new UserManager();
+$userManager->loadUsers();
+$users = $userManager->getUsers();
+?>
+
+<table class="col my-5 table table-striped">
+    <thead>
+    <tr>
+        <th>
+            #
+        </th>
+        <th>
+            Nom d'utilisateur
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Mot de passe
+        </th>
+        <th>
+            Rôle
+        </th>
+        <th>
+            Supprimer
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+        <? foreach ($users as $user): ?>
+        <tr>
+            <td><?= htmlspecialchars($user->getId()) ?></td>
+            <td><?= htmlspecialchars($user->getUsername()) ?></td>
+            <td><?= htmlspecialchars($user->getEmail()) ?></td>
+            <td><?= htmlspecialchars($user->getPassword()) ?></td>
+            <td><?= htmlspecialchars($user->getRole()) ?></td>
+            <td>
+                <a href="../logic/delete-user.php?id=<?= htmlspecialchars($user->getId()) ?>" class="btn btn-danger"><span class="bi-trash-fill"></span>Supprimer</a>
+            </td>
+        </tr>
+        <? endforeach; ?>
+    </tbody>
+    <tfoot>
+    <tr>
+        <th>
+            #
+        </th>
+        <th>
+            Nom d'utilisateur
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Mot de passe
+        </th>
+        <th>
+            Rôle
+        </th>
+        <th>
+            Supprimer
+        </th>
+    </tr>
+    </tfoot>
+</table>

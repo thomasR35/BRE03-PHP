@@ -1,17 +1,14 @@
 <?php
-require_once __DIR__ . '/../managers/UserManager.class.php';
-require_once __DIR__ . '/../models/User.class.php';
 
-var_dump($_SERVER);
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+require __DIR__ . '/../managers/UserManager.class.php';
 
-    if (!empty($_POST['username']) && !empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['role'])) {
-        
-        $user = new User( $_POST['username'], $_POST['email'], $_POST['password'], $_POST['role']);
+if(isset($_POST["username"]) && isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["role"]))
+{
+    $user = new User($_POST["username"], $_POST["email"], password_hash($_POST["password"], PASSWORD_BCRYPT), $_POST["role"]);
 
-        $userManager = new UserManager();
-        $userManager->saveUser($user);
+    $manager = new UserManager();
 
-        echo "Utilisateur enregistré avec succès.";
-    }
+    $manager->saveUser($user);
+
+    header("Location: ../index.php");
 }

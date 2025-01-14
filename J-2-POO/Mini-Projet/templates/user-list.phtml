@@ -1,12 +1,4 @@
-<?php 
-require "logic/display-users.php";
-require_once __DIR__ . '/../managers/UserManager.class.php';
-
-
-$userManager = new UserManager();
-$userManager->loadUsers();
-$users = $userManager->getUsers();
-?>
+<?php require "logic/display-users.php" ?>
 
 <table class="col my-5 table table-striped">
     <thead>
@@ -32,18 +24,18 @@ $users = $userManager->getUsers();
     </tr>
     </thead>
     <tbody>
-        <? foreach ($users as $user): ?>
+    <?php foreach($users as $user) { ?>
         <tr>
-            <td><?= htmlspecialchars($user->getId()) ?></td>
-            <td><?= htmlspecialchars($user->getUsername()) ?></td>
-            <td><?= htmlspecialchars($user->getEmail()) ?></td>
-            <td><?= htmlspecialchars($user->getPassword()) ?></td>
-            <td><?= htmlspecialchars($user->getRole()) ?></td>
+            <td> <?= $user->getId(); ?> </td>
+            <td> <?= $user->getUsername(); ?> </td>
+            <td> <?= $user->getEmail(); ?> </td>
+            <td> <?= $user->getPassword(); ?> </td>
+            <td> <?= $user->getRole(); ?> </td>
             <td>
-                <a href="../logic/delete-user.php?id=<?= htmlspecialchars($user->getId()) ?>" class="btn btn-danger"><span class="bi-trash-fill"></span>Supprimer</a>
+                <a href="../logic/delete-user.php?id=<?= $user->getId() ?>" class="btn btn-danger"><scan class="bi-trash-fill"></scan></a>
             </td>
         </tr>
-        <? endforeach; ?>
+    <?php } ?>
     </tbody>
     <tfoot>
     <tr>

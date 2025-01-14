@@ -1,21 +1,16 @@
 <?php
-require_once '..managers/UserManager.php';
-require_once '..models/User.php';
 
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-    $userManager = new UserManager();
-    $userManager->loadUsers();
- 
-    $users = $userManager->getUsers();
-    foreach ($users as $user) {
-        if ($user->getId() == $userId) {
-            $userMnager->deleteUser($user);
-            break;
-        }
-    }
-    header('Location: ../templates/user-list.phtml');
-    exit;
+require __DIR__ . '/../managers/UserManager.class.php';
+
+if(isset($_GET["id"]))
+{
+    $manager = new UserManager();
+    $user = new User("", "", "", "");
+    $user->setId(intval($_GET["id"]));
+
+    $manager->deleteUser($user);
+
+    header("Location: ../index.php");
 }
 
 

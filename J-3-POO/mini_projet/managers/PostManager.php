@@ -3,7 +3,6 @@
 namespace mini_projet\managers;
 
 require_once __DIR__ . '/AbstractManager.php';
-require_once __DIR__ . '/../managers/PostManager.php';
 
 use mini_projet\models\Post;
 use mini_projet\models\User;

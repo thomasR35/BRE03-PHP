@@ -1,11 +1,12 @@
 <?php
-require_once __DIR__ . '/../vendor/autoload.php';
-include 'config.php';
+
+require_once __DIR__ . '/../managers/AbstractManager.php';
 require_once __DIR__ . '/../managers/PostManager.php';
 
 use mini_projet\managers\PostManager;
 
-$postManager = new PostManager($db);
+$postManager = new PostManager();
+
 $posts = $postManager->findAll();
 ?>
 

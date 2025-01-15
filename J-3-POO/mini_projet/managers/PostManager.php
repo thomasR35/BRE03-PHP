@@ -1,10 +1,13 @@
 <?php
 
-namespace mini_projet\Managers;
+namespace mini_projet\managers;
 
-use mini_projet\Models\Post;
-use mini_projet\Models\User;
-use mini_projet\Models\Category;
+require_once __DIR__ . '/AbstractManager.php';
+require_once __DIR__ . '/../managers/PostManager.php';
+
+use mini_projet\models\Post;
+use mini_projet\models\User;
+use mini_projet\models\Category;
 use PDO;
 
 class PostManager extends AbstractManager

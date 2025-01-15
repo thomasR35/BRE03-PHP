@@ -1,14 +1,33 @@
 <?php
 
-namespace App\Managers;
+namespace mini_projet\Managers;
 
-use App\Models\Category;
-use App\Models\Post;
+require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/managers/CategoryManager.php';
+require_once __DIR__ . '/models/Category.php';
+require_once __DIR__ . '/models/Post.php';
+
+$categoryManager = new CategoryManager($pdo);
+
+$categories = $categoryManager->findAll();
+
+foreach ($categories as $category) {
+    echo "Titre : " . $category->getTitle() . "<br>";
+    echo "Description : " . $category->getDescription() . "<br><br>";
+}
+
+
+use mini_projet\Models\Category;
+use mini_projet\Models\Post;
 use PDO;
-use App\Models\User;
+use mini_projet\Models\User;
 
 class CategoryManager extends AbstractManager
 {
+    public function __construct(PDO $pdo)
+    {
+        $this->db = $pdo;
+    }
     public function findAll(): array
     {
         $stmt = $this->db->query("SELECT * FROM categories");

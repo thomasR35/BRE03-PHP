@@ -1,8 +1,8 @@
 <?php
 
-namespace mini_projet\Managers;
+namespace mini_projet\managers;
 
-use mini_projet\Models\User;
+use mini_projet\models\User;
 use PDO;
 
 class UserManager extends AbstractManager

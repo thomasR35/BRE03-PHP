@@ -1,6 +1,6 @@
 <?php
 
-namespace mini_projet\Managers;
+namespace mini_projet\managers;
 
 use PDO;
 
@@ -8,11 +8,8 @@ abstract class AbstractManager
 {
     protected PDO $db;
 
-    public function __construct()
+    public function __construct(PDO $db)
     {
-        $this->db = new PDO("mysql:host=localhost;dbname=your_database", "username", "password", [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        ]);
+        $this->db = $db;
     }
 }

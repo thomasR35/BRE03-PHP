@@ -1,8 +1,8 @@
 <?php
-// config/database.php
-$dsn = 'mysql:host=localhost;dbname=userbase_poo';
-$username = 'root'; // ou votre utilisateur
-$password = ''; // ou votre mot de passe
+
+$dsn = 'mysql:host=db.3wa.io;dbname=thomasriou_userbase_poo';
+$username = 'thomasriou';
+$password = 'e11d02ae58dcb7466cf6407c21138658';
 
 try {
     $pdo = new PDO($dsn, $username, $password);

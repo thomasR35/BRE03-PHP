@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Exercice Routeur MVC</title>
+    <link rel="stylesheet" href="assets/styles/css/style.css" />
+</head>
+
+<body>
+    <header>
+        <h1>Mon Site MVC</h1>
+        <nav>
+            <ul>
+                <li><a href="index.php" class="<?= $route === 'home' ? 'active' : '' ?>">Accueil</a></li>
+                <li><a href="index.php?route=a-propos" class="<?= $route === 'about' ? 'active' : '' ?>">À propos</a></li>
+                <li><a href="index.php?route=contact" class="<?= $route === 'contact' ? 'active' : '' ?>">Contact</a></li>
+
+            </ul>
+        </nav>
+    </header>
+    <?php if (isset($successMessage)): ?>
+        <p style="color: green; text-align: center;"><?= $successMessage ?></p>
+    <?php endif; ?>
+
+    <main>
+        <?php
+        if ($route === 'home') {
+            require 'templates/home.phtml';
+        } elseif ($route === 'about') {
+            require 'templates/about.phtml';
+        } elseif ($route === 'contact') {
+            require 'templates/contact.phtml';
+        } elseif ($route === 'notFound') {
+            require 'templates/notFound.phtml';
+        }
+        ?>
+    </main>
+
+    <footer>
+        <p>&copy; <?= date('Y') ?> Mon Site MVC. Tous droits réservés.</p>
+    </footer>
+</body>
+
+</html>

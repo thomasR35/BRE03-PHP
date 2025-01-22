@@ -1,0 +1,32 @@
+<main>
+    <h1>Formulaire d'inscription</h1>
+    <p>Merci de remplir les informations suivantes pour rejoindre notre site.</p>
+
+    <form action="index.php?route=check-inscription" method="POST">
+        <!-- Informations classiques -->
+        <label for="email">Adresse email :</label>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="password">Mot de passe :</label>
+        <input type="password" id="password" name="password" required><br>
+
+        <label for="confirm_password">Confirmez votre mot de passe :</label>
+        <input type="password" id="confirm_password" name="confirm_password" required><br>
+
+        <!-- Informations créatives -->
+        <label for="corbeaux_rotis">Combien de corbeaux rôtis mangez-vous par jour ?</label>
+        <input type="number" id="corbeaux_rotis" name="corbeaux_rotis" min="0" max="10" required><br>
+
+        <label for="poids_mother">Quel est le poids de votre mère en M&M's ?</label>
+        <input type="number" id="poids_mother" name="poids_mother" min="1000" max="1000000" required><br>
+
+        <label for="superpower">Si vous pouviez avoir un super pouvoir, lequel choisiriez-vous ?</label>
+        <input type="text" id="superpower" name="superpower" placeholder="Lancer des éclairs avec les yeux" required><br>
+
+        <!-- Consentement -->
+        <label for="terms">J'accepte les termes et conditions :</label>
+        <input type="checkbox" id="terms" name="terms" required><br>
+
+        <input type="submit" value="S'inscrire">
+    </form>
+</main>

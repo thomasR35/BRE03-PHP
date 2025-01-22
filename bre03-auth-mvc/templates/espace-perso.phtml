@@ -1,0 +1,17 @@
+<main>
+    <h1>Espace Personnel</h1>
+    <div class="user-info">
+        <h2>Bienvenue dans votre espace personnel !</h2>
+        <p>Votre identifiant est : <strong><?= $_SESSION['user'] ?? 'Inconnu' ?></strong></p>
+        <p>Vous êtes connecté à votre compte. N'hésitez pas à consulter vos informations et préférences.</p>
+    </div>
+
+    <div class="user-actions">
+        <h3>Actions disponibles :</h3>
+        <ul>
+            <li><a href="index.php?route=modifier-profil">Modifier mon profil</a></li>
+            <li><a href="index.php?route=historique-commandes">Voir mon historique de commandes</a></li>
+            <li><a href="index.php?route=deconnexion">Se déconnecter</a></li>
+        </ul>
+    </div>
+</main>

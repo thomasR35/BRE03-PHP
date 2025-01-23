@@ -27,11 +27,14 @@ class UserController
                 require 'templates/layout.phtml';
             } else {
                 // Gérer le cas où l'utilisateur n'est pas trouvé
+                echo "Utilisateur non trouvé.";
             }
         } else {
             // Gérer le cas où l'ID n'est pas fourni
+            echo "ID utilisateur non fourni.";
         }
     }
+
 
     public function create()
     {

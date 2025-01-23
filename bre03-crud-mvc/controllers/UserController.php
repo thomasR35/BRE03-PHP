@@ -1,43 +1,44 @@
 <?php
+// controllers/UserController.php
+
+require_once __DIR__ . '/../managers/UserManager.php';
 
 class UserController
 {
-    public function list()
+    private $userManager;
+
+    public function __construct()
     {
-        $route = __DIR__ . '/../templates/users/list.phtml';
-        require __DIR__ . '/../templates/layout.phtml';
+        $this->userManager = new UserManager();
     }
 
-    public function show()
+    public function listUsers()
     {
-        $route = __DIR__ . '/../templates/users/show.phtml';
-        require __DIR__ . '/../templates/layout.phtml';
+        $users = $this->userManager->getAllUsers();
+        require __DIR__ . '/../templates/users/list.phtml';
     }
 
-    public function create()
+    public function showUser($id)
     {
-        $route = __DIR__ . '/../templates/users/create.phtml';
-        require __DIR__ . '/../templates/layout.phtml';
+        $user = $this->userManager->getUserById($id);
+        require __DIR__ . '/../templates/users/show.phtml';
     }
 
-    public function checkCreate()
+    public function createUser($userData)
     {
-        echo "Méthode checkCreate() appelée.";
+        $this->userManager->addUser($userData);
+        header('Location: /users');
     }
 
-    public function update()
+    public function updateUser($id, $userData)
     {
-        $route = __DIR__ . '/../templates/users/update.phtml';
-        require __DIR__ . '/../templates/layout.phtml';
+        $this->userManager->updateUser($id, $userData);
+        header('Location: /users');
     }
 
-    public function checkUpdate()
+    public function deleteUser($id)
     {
-        echo "Méthode checkUpdate() appelée.";
-    }
-
-    public function delete()
-    {
-        echo "Méthode delete() appelée.";
+        $this->userManager->deleteUser($id);
+        header('Location: /users');
     }
 }

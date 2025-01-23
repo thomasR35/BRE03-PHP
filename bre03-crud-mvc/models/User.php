@@ -1,49 +1,66 @@
 <?php
 class User
 {
-    private $id;
-    private $email;
-    private $firstName;
-    private $lastName;
+    private ?int $id;
+    private string $email;
+    private string $first_name;
+    private string $last_name;
 
-    // Getters et setters
-    public function getId()
+    public function __construct(string $email, string $first_name, string $last_name, ?int $id = null)
+    {
+        $this->email = $email;
+        $this->first_name = $first_name;
+        $this->last_name = $last_name;
+        $this->id = $id;
+    }
+
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId($id)
+    public function setId(?int $id): void
     {
         $this->id = $id;
     }
 
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
 
-    public function setEmail($email)
+    public function setEmail(string $email): void
     {
         $this->email = $email;
     }
 
-    public function getFirstName()
+    public function getFirstName(): string
     {
-        return $this->firstName;
+        return $this->first_name;
     }
 
-    public function setFirstName($firstName)
+    public function setFirstName(string $first_name): void
     {
-        $this->firstName = $firstName;
+        $this->first_name = $first_name;
     }
 
-    public function getLastName()
+    public function getLastName(): string
     {
-        return $this->lastName;
+        return $this->last_name;
     }
 
-    public function setLastName($lastName)
+    public function setLastName(string $last_name): void
     {
-        $this->lastName = $lastName;
+        $this->last_name = $last_name;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'email' => $this->email,
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
+        ];
     }
 }

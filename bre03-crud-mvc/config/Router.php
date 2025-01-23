@@ -1,50 +1,39 @@
 <?php
+// config/Router.php
 
 class Router
 {
-    public function handleRequest()
+    public function route($uri, $method)
     {
+        $userController = new UserController();
 
-        $route = $_GET['route'] ?? null;
-
-
-        $controller = new UserController();
-
-
-        switch ($route) {
-            case 'show_user':
-
-                $controller->show();
+        switch ($uri) {
+            case '/users':
+                if ($method === 'GET') {
+                    $userController->listUsers();
+                }
                 break;
-
-            case 'create_user':
-
-                $controller->create();
+            case '/users/create':
+                if ($method === 'POST') {
+                    $userData = $_POST;
+                    $userController->createUser($userData);
+                }
                 break;
-
-            case 'check_create_user':
-
-                $controller->checkCreate();
+            case '/users/update':
+                if ($method === 'POST') {
+                    $id = $_POST['id'];
+                    $userData = $_POST;
+                    $userController->updateUser($id, $userData);
+                }
                 break;
-
-            case 'update_user':
-
-                $controller->update();
+            case '/users/delete':
+                if ($method === 'POST') {
+                    $id = $_POST['id'];
+                    $userController->deleteUser($id);
+                }
                 break;
-
-            case 'check_update_user':
-
-                $controller->checkUpdate();
-                break;
-
-            case 'delete_user':
-
-                $controller->delete();
-                break;
-
             default:
-
-                $controller->list();
+                echo 'Page not found';
                 break;
         }
     }

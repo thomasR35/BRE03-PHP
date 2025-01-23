@@ -1,0 +1,7 @@
+<?php $route = 'users/delete.phtml'; ?>
+<h2>Supprimer un utilisateur</h2>
+<p>Êtes-vous sûr de vouloir supprimer cet utilisateur ?</p>
+<form method="POST" action="index.php?route=check_delete_user">
+    <input type="hidden" name="id" value="<?= $user->getId() ?>">
+    <button type="submit">Supprimer</button>
+</form>

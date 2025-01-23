@@ -1,2 +1,5 @@
-<h2>Afficher un utilisateur</h2>
-<p>Affichage des détails d'un utilisateur.</p>
+<?php $route = 'users/show.phtml'; ?>
+<h2>Détails de l'utilisateur</h2>
+<p>Email: <?= $user->getEmail() ?></p>
+<p>Prénom: <?= $user->getFirstName() ?></p>
+<p>Nom: <?= $user->getLastName() ?></p>

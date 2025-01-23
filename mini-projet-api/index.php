@@ -2,8 +2,12 @@
 require_once 'config/database.php';
 require_once 'models/User.php';
 require_once 'logic/user_functions.php';
+require_once __DIR__ . 'config/autoload.php';
 
 header('Content-Type: application/json');
+
+$router = new Router();
+$router->handleRequest($_GET);
 
 if (isset($_GET['route'])) {
     switch ($_GET['route']) {

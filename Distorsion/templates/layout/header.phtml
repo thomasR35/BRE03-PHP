@@ -11,38 +11,30 @@
 </head>
 
 <body>
-    <header>
-        <nav class="navbar">
-            <!-- Logo ou titre du site -->
-            <div class="navbar-brand">
-                <a href="index.php?route=/">Distorsion</a>
-            </div>
+    <div class="layout">
+        <aside class="sidebar">
 
-            <!-- Liens de navigation principaux -->
-            <ul class="navbar-menu">
-                <li><a href="index.php?route=/categories">Catégories</a></li>
-                <li><a href="index.php?route=/rooms">Salons</a></li>
-                <!-- Par exemple : <li><a href="index.php?route=/messages">Messages</a></li> -->
+            <main class="container">
+                <!-- Début du contenu principal -->
+                <h2 class="navbar-brand"><a href="index.php?route=/">Distorsion</a></h2>
+                <ul>
+                    <li><a href="index.php?route=/categories">Catégories</a></li>
+                    <li><a href="index.php?route=/rooms">Salons</a></li>
+                    <li><a href="index.php?route=/about">À propos</a></li>
+                    <?php
+                    if (session_status() === PHP_SESSION_NONE) {
+                        session_start();
+                    }
 
-                <!-- Espace "À propos", "Paramètres", etc. -->
-                <li><a href="index.php?route=/about">À propos</a></li>
+                    if (!empty($_SESSION['user_id'])) :
+                    ?>
+                        <li><a href="index.php?route=/logout">Se déconnecter</a></li>
+                    <?php else: ?>
+                        <li><a href="index.php?route=/login-form">Se connecter</a></li>
+                        <li><a href="index.php?route=/register-form">S'inscrire</a></li>
+                    <?php endif; ?>
+                </ul>
 
-                <!-- Bloc connexion/déconnexion (selon l'état de la session) -->
-                <?php
-                if (session_status() === PHP_SESSION_NONE) {
-                    session_start();
-                }
+        </aside>
 
-                if (!empty($_SESSION['user_id'])) :
-                ?>
-                    <li><a href="index.php?route=/logout">Se déconnecter</a></li>
-                <?php else: ?>
-                    <li><a href="index.php?route=/login-form">Se connecter</a></li>
-                    <li><a href="index.php?route=/register-form">S'inscrire</a></li>
-                <?php endif; ?>
-            </ul>
-        </nav>
-    </header>
-
-    <main class="container">
-        <!-- Début du contenu principal -->
+        <main class="content">

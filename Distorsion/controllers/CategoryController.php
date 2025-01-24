@@ -27,7 +27,9 @@ class CategoryController extends BaseController
         // Vérifie si l'utilisateur est connecté ET qu'il a le rôle 'admin'
         if (empty($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
             http_response_code(403);
-            die("Accès refusé : vous devez être administrateur pour cette action.");
+            if (empty($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+                $this->redirectWithMessage("Accès refusé : vous devez être administrateur pour cette action.", 'index.php?route=/error/accessDenied');
+            }
         }
     }
 

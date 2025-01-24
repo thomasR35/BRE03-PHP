@@ -69,17 +69,18 @@ class MessageController extends BaseController
         }
     }
 
-    /**
-     * Suppression (optionnelle) d'un message
-     */
     public function deleteMessage(): void
     {
+        if (!$this->isAdmin()) {
+            $this->redirectWithMessage("Accès refusé : vous devez être administrateur pour cette action.", 'index.php?route=/error/accessDenied');
+        }
+
         $id = $_GET['id'] ?? null;
         $roomId = $_GET['room_id'] ?? null;
 
         if ($id && $roomId) {
-            $this->messageManager->delete((int) $id);
-            header('Location: index.php?route=/messages/list&room_id=' . (int) $roomId);
+            $this->messageManager->delete((int)$id);
+            header('Location: index.php?route=/messages/list&room_id=' . (int)$roomId);
             exit;
         } else {
             echo "Paramètres manquants.";

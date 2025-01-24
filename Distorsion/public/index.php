@@ -8,6 +8,7 @@ use Controllers\CategoryController;
 use Controllers\RoomController;
 use Controllers\MessageController;
 use Controllers\AuthController;
+use Controllers\ErrorController;
 
 $router = new Router();
 
@@ -50,6 +51,9 @@ $router->add('/register', [AuthController::class, 'register']);
 // Optionnel pour l'inscription
 $router->add('/register-form', [AuthController::class, 'registerForm']);
 $router->add('/register', [AuthController::class, 'register']);
+
+// Ajout de la route pour "accessDenied"
+$router->add('/error/accessDenied', [ErrorController::class, 'accessDenied']);
 
 // Gestion des erreurs 404
 $router->handle();

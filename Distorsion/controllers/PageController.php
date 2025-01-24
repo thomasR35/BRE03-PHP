@@ -4,12 +4,18 @@ namespace Controllers;
 
 class PageController extends BaseController
 {
-    public function home()
+    public function home(): void
     {
-        // Exemple pour la page d'accueil
+        // Récupérer les catégories
+        $categories = $this->categoryManager->findAll();
+
+        // Récupérer les salons (par exemple, les 5 plus récents)
+        $rooms = $this->roomManager->findRecent(5);
+
+        // Passer les données à la vue
         $this->render('pages/home', [
-            'title' => 'Bienvenue sur Distorsion',
-            'content' => 'Ceci est la page d\'accueil.'
+            'categories' => $categories,
+            'rooms' => $rooms
         ]);
     }
 

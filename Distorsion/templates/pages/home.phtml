@@ -1,2 +1,42 @@
-<h1><?= $title ?? 'Accueil' ?></h1>
-<p><?= $content ?? '' ?></p>
+<div class="home-container">
+    <h1>Bienvenue sur Distorsion</h1>
+    <p class="welcome-text">Discutez, partagez et collaborez dans vos salons préférés !</p>
+
+    <!-- Section Catégories -->
+    <section class="categories-section">
+        <h2>Explorez les catégories</h2>
+        <?php if (!empty($categories)): ?>
+            <ul class="categories-list">
+                <?php foreach ($categories as $category): ?>
+                    <li class="category-item">
+                        <h3><?= htmlspecialchars($category->getName()) ?></h3>
+                        <a href="index.php?route=/categories&id=<?= $category->getId(); ?>" class="btn btn-view">
+                            Voir les salons
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php else: ?>
+            <p>Aucune catégorie disponible pour le moment.</p>
+        <?php endif; ?>
+    </section>
+
+    <!-- Section sur les salons -->
+    <section class="rooms-section">
+        <h2>Salons récents</h2>
+        <?php if (!empty($rooms)): ?>
+            <ul class="rooms-list">
+                <?php foreach ($rooms as $room): ?>
+                    <li class="room-item">
+                        <h3><?= htmlspecialchars($room->getName()) ?></h3>
+                        <a href="index.php?route=/messages/list&room_id=<?= $room->getId(); ?>" class="btn btn-view">
+                            Voir les messages
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php else: ?>
+            <p>Aucun salon disponible pour le moment.</p>
+        <?php endif; ?>
+    </section>
+</div>

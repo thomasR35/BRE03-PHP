@@ -7,6 +7,7 @@ class Category
     private ?int $id = null;
     private ?string $name = null;
     private ?string $createdAt = null;
+    private array $rooms = [];
 
     public function __construct(?int $id = null, ?string $name = null, ?string $createdAt = null)
     {

@@ -1,25 +1,29 @@
-<h1>Liste des salons</h1>
+<div class="room-card">
+    <h1>Liste des salons</h1>
 
-<?php if (isset($category)): ?>
-    <h2>Catégorie : <?= htmlspecialchars($category->getName()) ?></h2>
-<?php endif; ?>
+    <?php if (isset($category)): ?>
+        <h2>Catégorie : <?= htmlspecialchars($category->getName()) ?></h2>
+    <?php endif; ?>
 
-<a href="index.php?route=/rooms/create">Nouveau Salon</a>
+    <a class="btn btn-new" href="index.php?route=/rooms/create">Nouveau Salon</a>
 
-<?php if (!empty($rooms)): ?>
-    <ul>
-        <?php foreach ($rooms as $room): ?>
-            <li>
-                <?= htmlspecialchars($room->getName()) ?>
-                <a href="index.php?route=/rooms/edit&id=<?= $room->getId() ?>">Modifier</a>
-                <a href="index.php?route=/rooms/delete&id=<?= $room->getId() ?>"
-                    onclick="return confirm('Supprimer ce salon ?')">Supprimer</a>
-
-                <!-- Lien pour afficher les messages de ce salon -->
-                <a href="index.php?route=/messages/list&room_id=<?= $room->getId() ?>">Voir les messages</a>
-            </li>
-        <?php endforeach; ?>
-    </ul>
-<?php else: ?>
-    <p>Aucun salon à afficher.</p>
-<?php endif; ?>
+    <?php if (!empty($rooms)): ?>
+        <ul class="room-list">
+            <?php foreach ($rooms as $room): ?>
+                <li class="room-item">
+                    <span class="room-name"><?= htmlspecialchars($room->getName()) ?></span>
+                    <a class="btn btn-see" href="index.php?route=/messages/list&room_id=<?= $room->getId(); ?>">Voir les messages</a>
+                    <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin'): ?>
+                        <a class="btn btn-edit" href="index.php?route=/rooms/edit&id=<?= $room->getId() ?>">Modifier</a>
+                    <?php endif; ?>
+                    <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin'): ?>
+                        <a class="btn btn-delete" href="index.php?route=/rooms/delete&id=<?= $room->getId() ?>"
+                            onclick="return confirm('Supprimer ce salon ?')">Supprimer</a>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php else: ?>
+        <p>Aucun salon à afficher.</p>
+    <?php endif; ?>
+</div>

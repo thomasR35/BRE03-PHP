@@ -34,4 +34,15 @@ abstract class BaseController
         require __DIR__ . '/../templates/' . $view . '.phtml';
         require __DIR__ . '/../templates/layout/footer.phtml';
     }
+    protected function redirectWithMessage(string $message, string $redirectUrl = 'index.php'): void
+    {
+        // Stockez le message dans la session pour l'afficher sur la page cible
+        $_SESSION['flash_message'] = $message;
+        header('Location: ' . $redirectUrl);
+        exit;
+    }
+    protected function isAdmin(): bool
+    {
+        return isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin';
+    }
 }

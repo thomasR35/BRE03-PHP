@@ -128,4 +128,23 @@ class RoomManager
         $stmt = $pdo->prepare('DELETE FROM rooms WHERE id = :id');
         return $stmt->execute(['id' => $id]);
     }
+    public function findRecent(int $limit): array
+    {
+        $pdo = Database::getConnection();
+        $stmt = $pdo->prepare('SELECT * FROM rooms ORDER BY created_at DESC LIMIT :limit');
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $rooms = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $rooms[] = new Room(
+                $row['id'],
+                $row['category_id'],
+                $row['name'],
+                $row['created_at']
+            );
+        }
+
+        return $rooms;
+    }
 }

@@ -1,0 +1,19 @@
+<h1>Créer un Salon</h1>
+
+<?php if (!empty($error)): ?>
+    <p style="color: red;"><?= $error ?></p>
+<?php endif; ?>
+
+<form action="index.php?route=/rooms/store" method="post">
+    <label for="category_id">Catégorie :</label>
+    <select name="category_id" id="category_id">
+        <?php foreach ($categories as $cat): ?>
+            <option value="<?= $cat->getId() ?>"><?= htmlspecialchars($cat->getName()) ?></option>
+        <?php endforeach; ?>
+    </select>
+
+    <label for="name">Nom du Salon :</label>
+    <input type="text" name="name" id="name" required>
+
+    <button type="submit">Enregistrer</button>
+</form>

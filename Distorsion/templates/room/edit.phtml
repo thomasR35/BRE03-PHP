@@ -1,0 +1,25 @@
+<h1>Modifier un Salon</h1>
+
+<?php if (isset($room)): ?>
+    <form action="index.php?route=/rooms/update" method="post">
+        <input type="hidden" name="id" value="<?= $room->getId() ?>">
+
+        <label for="category_id">Catégorie :</label>
+        <select name="category_id" id="category_id">
+            <?php foreach ($categories as $cat): ?>
+                <option value="<?= $cat->getId() ?>"
+                    <?= $cat->getId() === $room->getCategoryId() ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($cat->getName()) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+
+        <label for="name">Nom du Salon :</label>
+        <input type="text" name="name" id="name"
+            value="<?= htmlspecialchars($room->getName()) ?>" required>
+
+        <button type="submit">Enregistrer</button>
+    </form>
+<?php else: ?>
+    <p>Salon introuvable.</p>
+<?php endif; ?>

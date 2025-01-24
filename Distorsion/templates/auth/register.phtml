@@ -1,0 +1,15 @@
+<h1>Inscription</h1>
+
+<?php if (!empty($error)): ?>
+    <p style="color: red;"><?= $error ?></p>
+<?php endif; ?>
+
+<form action="index.php?route=/register" method="post">
+    <label for="username">Nom d'utilisateur</label>
+    <input type="text" name="username" id="username" required>
+
+    <label for="password">Mot de passe</label>
+    <input type="password" name="password" id="password" required>
+
+    <button type="submit">S'inscrire</button>
+</form>

@@ -1,0 +1,11 @@
+<h1>Créer une nouvelle catégorie</h1>
+
+<?php if (!empty($error)): ?>
+    <p style="color: red;"><?= $error ?></p>
+<?php endif; ?>
+
+<form action="index.php?route=/categories/store" method="post">
+    <label for="name">Nom de la catégorie</label>
+    <input type="text" name="name" id="name" required>
+    <button type="submit">Enregistrer</button>
+</form>

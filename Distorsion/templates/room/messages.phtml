@@ -1,0 +1,28 @@
+<h1>Messages du salon : <?= htmlspecialchars($room->getName()) ?></h1>
+
+<!-- Formulaire d'ajout de message -->
+<form action="index.php?route=/messages/store" method="post">
+    <input type="hidden" name="room_id" value="<?= $room->getId() ?>">
+    <label for="content">Nouveau message :</label>
+    <textarea name="content" id="content" rows="3" required></textarea>
+    <button type="submit">Envoyer</button>
+</form>
+
+<!-- Liste des messages -->
+<?php if (!empty($messages)): ?>
+    <ul>
+        <?php foreach ($messages as $message): ?>
+            <li>
+                <strong><?= htmlspecialchars($message->getCreatedAt()) ?>:</strong>
+                <?= nl2br(htmlspecialchars($message->getContent())) ?>
+                <!-- Lien pour supprimer un message (optionnel) -->
+                <a href="index.php?route=/messages/delete&id=<?= $message->getId() ?>&room_id=<?= $room->getId() ?>"
+                    onclick="return confirm('Supprimer ce message ?')">Supprimer</a>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+<?php else: ?>
+    <p>Aucun message pour ce salon.</p>
+<?php endif; ?>
+
+<p><a href="index.php?route=/rooms">Revenir à la liste des salons</a></p>

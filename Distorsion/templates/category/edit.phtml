@@ -1,0 +1,12 @@
+<h1>Modifier la catégorie</h1>
+
+<?php if (isset($category)): ?>
+    <form action="index.php?route=/categories/update" method="post">
+        <input type="hidden" name="id" value="<?= $category->getId() ?>">
+        <label for="name">Nom de la catégorie</label>
+        <input type="text" name="name" id="name" value="<?= htmlspecialchars($category->getName()) ?>" required>
+        <button type="submit">Enregistrer</button>
+    </form>
+<?php else: ?>
+    <p>Catégorie introuvable.</p>
+<?php endif; ?>

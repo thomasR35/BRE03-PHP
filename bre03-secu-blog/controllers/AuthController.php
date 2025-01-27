@@ -59,9 +59,10 @@ class AuthController extends AbstractController
 
             // Rediriger vers la page d'accueil
             $this->redirect("index.php");
-        } else {
-            // Rediriger vers la page de login avec un message d'erreur
-            $this->redirect("index.php?route=login&error=invalid_credentials");
+        } elseif (!$user || !password_verify($password, $user->getPassword())) {
+            $_SESSION['login_error'] = "Invalid credentials";
+            $this->redirect("index.php?route=login");
+            return;
         }
     }
 

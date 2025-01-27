@@ -4,18 +4,18 @@
     <h2 class="mt-5">Login</h2>
 
     <form action="index.php?route=check-login" method="post">
-        <input type="hidden" name="csrf-token" id="csrf-token" value="" />
+        <input type="hidden" name="csrf-token" id="csrf-token" value="<?= htmlspecialchars($csrf_token ?? '') ?>" />
         <fieldset class="my-1">
             <label for="email" class="form-label">
                 Email
             </label>
-            <input type="email" name="email" id="email" class="form-control"/>
+            <input type="email" name="email" id="email" class="form-control" value="<?= htmlspecialchars($data['username'] ?? '') ?>" />
         </fieldset>
         <fieldset class="my-1">
             <label for="password" class="form-label">
                 Password
             </label>
-            <input type="password" name="password" id="password" class="form-control" />
+            <input type="password" name="password" id="password" class="form-control" value="<?= htmlspecialchars($data['password'] ?? '') ?>" />
         </fieldset>
         <fieldset>
             <button type="submit" class="btn btn-primary">Login</button>

@@ -4,8 +4,6 @@
  * @author : Gaellan
  * @link : https://github.com/Gaellan
  */
-require_once __DIR__ . '/../managers/UserManager.php';
-require_once __DIR__ . '/../services/Security.php';
 
 class AuthController extends AbstractController
 {
@@ -16,109 +14,136 @@ class AuthController extends AbstractController
         $this->userManager = new UserManager();
     }
 
-    /**
-     * Affiche le formulaire de connexion
-     */
     public function login(): void
     {
-        $csrfToken = generateCsrfToken();
-        $this->render("login", ["csrf_token" => $csrfToken]);
+        $csrfTokenManager = new CSRFTokenManager();
+        $csrfToken = $csrfTokenManager->generateCSRFToken();
+
+        // Stocker le token dans la session pour validation ultérieure
+        $_SESSION['csrf_token'] = $csrfToken;
+
+        $this->render("login", ['csrf_token' => $csrfToken]);
     }
 
-    /**
-     * Vérifie les informations de connexion
-     */
     public function checkLogin(): void
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Vérification du token CSRF
-            if (!verifyCsrfToken()) {
-                die('Erreur CSRF : opération non autorisée.');
-            }
+        // Récupérer les données du formulaire
+        $email = $_POST['email'] ?? null;
+        $password = $_POST['password'] ?? null;
+        $csrfTokenManager = new CSRFTokenManager();
 
-            // Récupération et nettoyage des données
-            $email = sanitize($_POST['email'] ?? '');
-            $password = $_POST['password'] ?? ''; // Pas besoin de sanitize les mots de passe
+        // Valider le token CSRF
+        if (empty($_POST['csrf-token']) || !$csrfTokenManager->validateCSRFToken($_POST['csrf-token'])) {
+            $this->redirect("index.php?route=login&error=csrf");
+            return;
+        }
+        // Validation des données
+        if (empty($email) || empty($password)) {
+            $this->redirect("index.php?route=login&error=missing_fields");
+            return;
+        }
 
-            // Recherche de l'utilisateur par email
-            $user = $this->userManager->findByEmail($email);
+        // Rechercher l'utilisateur par email
+        $user = $this->userManager->findByEmail($email);
 
-            if ($user && password_verify($password, $user->Getpassword())) {
-                // Mot de passe valide, on démarre une session
-                session_start();
-                $_SESSION['user_id'] = $user->Getid();
-                $_SESSION['username'] = $user->Getusername();
+        if ($user && password_verify($password, $user->getPassword())) {
+            // Initialiser la session utilisateur
+            $_SESSION['user'] = [
+                'id' => $user->getId(),
+                'username' => $user->getUsername(),
+                'email' => $user->getEmail(),
+                'role' => $user->getRole(),
+            ];
 
-                // Redirige vers la page d'accueil
-                $this->redirect("index.php");
-            } else {
-                // Identifiants invalides, redirige vers la page de connexion
-                $this->redirect("index.php?route=login&error=1");
-            }
+            // Rediriger vers la page d'accueil
+            $this->redirect("index.php");
+        } else {
+            // Rediriger vers la page de login avec un message d'erreur
+            $this->redirect("index.php?route=login&error=invalid_credentials");
         }
     }
 
-    /**
-     * Affiche le formulaire d'inscription
-     */
     public function register(): void
     {
-        $csrfToken = generateCsrfToken();
-        $this->render("register", ["csrf_token" => $csrfToken]);
+        $csrfTokenManager = new CSRFTokenManager();
+        $csrfToken = $csrfTokenManager->generateCSRFToken();
+
+        // Stocker le token dans la session
+        $_SESSION['csrf_token'] = $csrfToken;
+
+        $this->render("register", ['csrf_token' => $csrfToken]);
     }
 
-    /**
-     * Vérifie les informations d'inscription et crée un nouvel utilisateur
-     */
     public function checkRegister(): void
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Vérification du token CSRF
-            if (!verifyCsrfToken()) {
-                die('Erreur CSRF : opération non autorisée.');
-            }
+        // Récupérer les données du formulaire
+        $username = htmlspecialchars($_POST['username'] ?? null);
+        $email = htmlspecialchars($_POST['email'] ?? null);
+        $password = htmlspecialchars($_POST['password'] ?? null);
+        $confirmPassword = htmlspecialchars($_POST['confirm_password'] ?? null);
+        $csrfTokenManager = new CSRFTokenManager();
 
-            // Récupération et nettoyage des données
-            $username = sanitize($_POST['username'] ?? '');
-            $email = sanitize($_POST['email'] ?? '');
-            $password = $_POST['password'] ?? '';
-
-            // Validation du mot de passe
-            if (!validatePassword($password)) {
-                $this->redirect("index.php?route=register&error=weak_password");
-            }
-
-            // Vérifie si l'utilisateur existe déjà
-            $existingUser = $this->userManager->findByEmail($email);
-            if ($existingUser) {
-                $this->redirect("index.php?route=register&error=user_exists");
-            }
-
-            // Hachage du mot de passe
-            $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-
-            // Création de l'utilisateur
-            $user = new User(null, $username, $email, $hashedPassword, 'user', new DateTime());
-            $this->userManager->create($user);
-
-            // Connecte l'utilisateur directement après l'inscription
-            session_start();
-            $_SESSION['user_id'] = $user->Getid();
-            $_SESSION['username'] = $user->Getusername();
-
-            // Redirige vers la page d'accueil
-            $this->redirect("index.php");
+        // Valider le token CSRF
+        if (empty($_POST['csrf-token']) || !$csrfTokenManager->validateCSRFToken($_POST['csrf-token'])) {
+            $this->redirect("index.php?route=login&error=csrf");
+            return;
         }
+        // Validation des données
+        if (empty($username) || empty($email) || empty($password) || empty($confirmPassword)) {
+            $this->redirect("index.php?route=register&error=missing_fields");
+            return;
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $this->redirect("index.php?route=register&error=invalid_email");
+            return;
+        }
+
+        if ($password !== $confirmPassword) {
+            $this->redirect("index.php?route=register&error=password_mismatch");
+            return;
+        }
+
+        // Validation de la force du mot de passe
+        if (!preg_match('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/', $password)) {
+            $this->redirect("index.php?route=register&error=weak_password");
+            return;
+        }
+
+        // Vérifier si l'utilisateur existe déjà
+        if ($this->userManager->findByEmail($email)) {
+            $this->redirect("index.php?route=register&error=user_exists");
+            return;
+        }
+
+        // Créer et enregistrer l'utilisateur
+        $user = (new User())
+            ->setUsername($username)
+            ->setEmail($email)
+            ->setPassword($password) // Le hash est géré dans UserManager
+            ->setRole('user') // Par défaut, les utilisateurs sont de rôle "user"
+            ->setCreatedAt(new DateTime());
+
+        $this->userManager->create($user);
+
+        // Initialiser la session utilisateur
+        $_SESSION['user'] = [
+            'id' => $user->getId(),
+            'username' => $user->getUsername(),
+            'email' => $user->getEmail(),
+            'role' => $user->getRole(),
+        ];
+
+        // Rediriger vers la page d'accueil
+        $this->redirect("index.php");
     }
 
-    /**
-     * Déconnecte l'utilisateur
-     */
     public function logout(): void
     {
-        session_start();
+        // Détruire la session
         session_destroy();
 
+        // Rediriger vers la page d'accueil
         $this->redirect("index.php");
     }
 }

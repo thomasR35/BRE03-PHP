@@ -14,31 +14,16 @@ class User
     private string $role;
     private DateTime $createdAt;
 
-    public function __construct(
-        int $id,
-        string $username,
-        string $email,
-        string $password,
-        string $role,
-        DateTime $createdAt
-    ) {
-        $this->id = $id;
-        $this->username = $username;
-        $this->email = $email;
-        $this->password = $password;
-        $this->role = $role;
-        $this->createdAt = $createdAt;
-    }
-
-    // Getters et Setters
+    // Getters et setters
     public function getId(): int
     {
         return $this->id;
     }
 
-    public function setId(int $id): void
+    public function setId(int $id): self
     {
         $this->id = $id;
+        return $this;
     }
 
     public function getUsername(): string
@@ -46,9 +31,10 @@ class User
         return $this->username;
     }
 
-    public function setUsername(string $username): void
+    public function setUsername(string $username): self
     {
         $this->username = $username;
+        return $this;
     }
 
     public function getEmail(): string
@@ -56,9 +42,10 @@ class User
         return $this->email;
     }
 
-    public function setEmail(string $email): void
+    public function setEmail(string $email): self
     {
         $this->email = $email;
+        return $this;
     }
 
     public function getPassword(): string
@@ -66,9 +53,10 @@ class User
         return $this->password;
     }
 
-    public function setPassword(string $password): void
+    public function setPassword(string $password): self
     {
         $this->password = $password;
+        return $this;
     }
 
     public function getRole(): string
@@ -76,9 +64,10 @@ class User
         return $this->role;
     }
 
-    public function setRole(string $role): void
+    public function setRole(string $role): self
     {
         $this->role = $role;
+        return $this;
     }
 
     public function getCreatedAt(): DateTime
@@ -86,8 +75,9 @@ class User
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTime $createdAt): void
+    public function setCreatedAt(DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
+        return $this;
     }
 }

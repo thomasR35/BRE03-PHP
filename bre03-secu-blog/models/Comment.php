@@ -4,33 +4,24 @@
  * @author : Gaellan
  * @link : https://github.com/Gaellan
  */
-require_once 'User.php'; // Assurez-vous d'avoir le modèle User
-require_once 'Post.php'; // Assurez-vous d'avoir le modèle Post
 
 class Comment
 {
     private int $id;
     private string $content;
+    private User $user;
     private Post $post;
-    private User $author;
 
-    public function __construct(int $id, string $content, Post $post, User $author)
-    {
-        $this->id = $id;
-        $this->content = $content;
-        $this->post = $post;
-        $this->author = $author;
-    }
-
-    // Getters et Setters
+    // Getters et setters
     public function getId(): int
     {
         return $this->id;
     }
 
-    public function setId(int $id): void
+    public function setId(int $id): self
     {
         $this->id = $id;
+        return $this;
     }
 
     public function getContent(): string
@@ -38,9 +29,21 @@ class Comment
         return $this->content;
     }
 
-    public function setContent(string $content): void
+    public function setContent(string $content): self
     {
         $this->content = $content;
+        return $this;
+    }
+
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
+        return $this;
     }
 
     public function getPost(): Post
@@ -48,18 +51,9 @@ class Comment
         return $this->post;
     }
 
-    public function setPost(Post $post): void
+    public function setPost(Post $post): self
     {
         $this->post = $post;
-    }
-
-    public function getAuthor(): User
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(User $author): void
-    {
-        $this->author = $author;
+        return $this;
     }
 }

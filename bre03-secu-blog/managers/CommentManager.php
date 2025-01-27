@@ -5,50 +5,32 @@
  * @link : https://github.com/Gaellan
  */
 
-require_once 'AbstractManager.php';
-require_once 'Comment.php';
-require_once 'User.php';
-require_once 'Post.php';
-
 class CommentManager extends AbstractManager
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    // Retourne les commentaires d'un post
     public function findByPost(int $postId): array
     {
-        $query = $this->db->prepare("
-             SELECT comments.*, users.id AS user_id, users.username
-             FROM comments
-             JOIN users ON comments.user_id = users.id
-             WHERE comments.post_id = :postId
-         ");
+        $query = $this->db->prepare('SELECT * FROM comments WHERE post_id = :postId ORDER BY id DESC');
         $query->execute(['postId' => $postId]);
-        $results = $query->fetchAll(PDO::FETCH_ASSOC);
-
         $comments = [];
-        foreach ($results as $result) {
-            $author = new User($result['user_id'], $result['username'], '', '', '', new DateTime());
-            $comments[] = new Comment($result['id'], $result['content'], null, $author);
+        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+            $comments[] = (new Comment())
+                ->setId((int)$row['id'])
+                ->setContent($row['content']);
+            // Charger également User et Post si nécessaire
         }
-
         return $comments;
     }
 
-    // Insère un commentaire dans la base de données
     public function create(Comment $comment): void
     {
-        $query = $this->db->prepare("
-             INSERT INTO comments (content, post_id, user_id) 
-             VALUES (:content, :postId, :userId)
-         ");
+        $query = $this->db->prepare(
+            'INSERT INTO comments (content, post_id, user_id) 
+             VALUES (:content, :postId, :userId)'
+        );
         $query->execute([
-            'content' => $comment->Getcontent(),
-            'postId' => $comment->Getpost()->Getid(),
-            'userId' => $comment->Getauthor()->Getid()
+            'content' => htmlspecialchars($comment->getContent()), // Protection XSS
+            'postId' => $comment->getPost()->getId(),
+            'userId' => $comment->getUser()->getId()
         ]);
     }
 }

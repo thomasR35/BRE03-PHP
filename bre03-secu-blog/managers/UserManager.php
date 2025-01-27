@@ -7,45 +7,36 @@
 
 class UserManager extends AbstractManager
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    // Retourne un utilisateur par son email
     public function findByEmail(string $email): ?User
     {
-        $query = $this->db->prepare("SELECT * FROM users WHERE email = :email");
+        $query = $this->db->prepare('SELECT * FROM users WHERE email = :email');
         $query->execute(['email' => $email]);
-        $result = $query->fetch(PDO::FETCH_ASSOC);
+        $row = $query->fetch(PDO::FETCH_ASSOC);
 
-        if ($result) {
-            return new User(
-                $result['id'],
-                $result['username'],
-                $result['email'],
-                $result['password'],
-                $result['role'],
-                new DateTime($result['created_at'])
-            );
+        if ($row) {
+            return (new User())
+                ->setId((int)$row['id'])
+                ->setUsername($row['username'])
+                ->setEmail($row['email'])
+                ->setPassword($row['password'])
+                ->setRole($row['role'])
+                ->setCreatedAt(new DateTime($row['created_at']));
         }
-
         return null;
     }
 
-    // Insère un utilisateur dans la base de données
     public function create(User $user): void
     {
-        $query = $this->db->prepare("
-             INSERT INTO users (username, email, password, role, created_at) 
-             VALUES (:username, :email, :password, :role, :createdAt)
-         ");
+        $query = $this->db->prepare(
+            'INSERT INTO users (username, email, password, role, created_at) 
+             VALUES (:username, :email, :password, :role, :created_at)'
+        );
         $query->execute([
-            'username' => $user->Getusername(),
-            'email' => $user->Getemail(),
-            'password' => $user->Getpassword(), // Hash du mot de passe à effectuer avant l'appel
-            'role' => $user->Getrole(),
-            'createdAt' => $user->GetcreatedAt()->format('Y-m-d H:i:s')
+            'username' => $user->getUsername(),
+            'email' => htmlspecialchars($user->getEmail()), // Protection XSS
+            'password' => password_hash($user->getPassword(), PASSWORD_BCRYPT), // Sécurité
+            'role' => $user->getRole(),
+            'created_at' => $user->getCreatedAt()->format('Y-m-d H:i:s'),
         ]);
     }
 }

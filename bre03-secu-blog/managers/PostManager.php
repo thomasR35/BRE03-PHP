@@ -5,82 +5,59 @@
  * @link : https://github.com/Gaellan
  */
 
-require_once 'AbstractManager.php';
-require_once 'Post.php';
-require_once 'User.php';
-require_once 'Category.php';
-
 class PostManager extends AbstractManager
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    // Retourne les 4 derniers posts
     public function findLatest(): array
     {
-        $query = $this->db->query("
-             SELECT posts.*, users.id AS user_id, users.username, categories.id AS category_id, categories.title AS category_title
-             FROM posts
-             JOIN users ON posts.author = users.id
-             JOIN categories ON posts.category_id = categories.id
-             ORDER BY posts.created_at DESC LIMIT 4
-         ");
-        $results = $query->fetchAll(PDO::FETCH_ASSOC);
-
+        $query = $this->db->query('SELECT * FROM posts ORDER BY created_at DESC LIMIT 4');
         $posts = [];
-        foreach ($results as $result) {
-            $author = new User($result['user_id'], $result['username'], '', '', '', new DateTime());
-            $category = new Category($result['category_id'], $result['category_title'], '');
-            $posts[] = new Post($result['id'], $result['title'], $result['content'], $result['excerpt'], new DateTime($result['created_at']), $author, $category);
+        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+            $posts[] = (new Post())
+                ->setId((int)$row['id'])
+                ->setTitle($row['title'])
+                ->setContent($row['content'])
+                ->setExcerpt($row['excerpt'])
+                ->setCreatedAt(new DateTime($row['created_at']));
+            // Ajouter un User et une Category ici si nécessaire
         }
-
         return $posts;
     }
 
-    // Retourne un post par son ID
     public function findOne(int $id): ?Post
     {
-        $query = $this->db->prepare("
-             SELECT posts.*, users.id AS user_id, users.username, categories.id AS category_id, categories.title AS category_title
-             FROM posts
-             JOIN users ON posts.author = users.id
-             JOIN categories ON posts.category_id = categories.id
-             WHERE posts.id = :id
-         ");
+        $query = $this->db->prepare('SELECT * FROM posts WHERE id = :id');
         $query->execute(['id' => $id]);
-        $result = $query->fetch(PDO::FETCH_ASSOC);
+        $row = $query->fetch(PDO::FETCH_ASSOC);
 
-        if ($result) {
-            $author = new User($result['user_id'], $result['username'], '', '', '', new DateTime());
-            $category = new Category($result['category_id'], $result['category_title'], '');
-            return new Post($result['id'], $result['title'], $result['content'], $result['excerpt'], new DateTime($result['created_at']), $author, $category);
+        if ($row) {
+            return (new Post())
+                ->setId((int)$row['id'])
+                ->setTitle($row['title'])
+                ->setContent($row['content'])
+                ->setExcerpt($row['excerpt'])
+                ->setCreatedAt(new DateTime($row['created_at']));
         }
-
         return null;
     }
 
-    // Retourne les posts d'une catégorie donnée
     public function findByCategory(int $categoryId): array
     {
-        $query = $this->db->prepare("
-             SELECT posts.*, users.id AS user_id, users.username, categories.id AS category_id, categories.title AS category_title
-             FROM posts
-             JOIN users ON posts.author = users.id
-             JOIN categories ON posts.category_id = categories.id
-             WHERE posts.category_id = :categoryId
-         ");
+        $query = $this->db->prepare(
+            'SELECT * FROM posts 
+             WHERE id IN (
+                 SELECT post_id FROM posts_categories WHERE category_id = :categoryId
+             )'
+        );
         $query->execute(['categoryId' => $categoryId]);
-        $results = $query->fetchAll(PDO::FETCH_ASSOC);
-
         $posts = [];
-        foreach ($results as $result) {
-            $author = new User($result['user_id'], $result['username'], '', '', '', new DateTime());
-            $category = new Category($result['category_id'], $result['category_title'], '');
-            $posts[] = new Post($result['id'], $result['title'], $result['content'], $result['excerpt'], new DateTime($result['created_at']), $author, $category);
+        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+            $posts[] = (new Post())
+                ->setId((int)$row['id'])
+                ->setTitle($row['title'])
+                ->setContent($row['content'])
+                ->setExcerpt($row['excerpt'])
+                ->setCreatedAt(new DateTime($row['created_at']));
         }
-
         return $posts;
     }
 }

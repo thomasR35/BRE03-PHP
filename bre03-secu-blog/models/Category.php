@@ -9,48 +9,39 @@ class Category
 {
     private int $id;
     private string $title;
-    private string $description;
+    private ?string $description; // Peut être null si non obligatoire
 
-    public function __construct(int $id, string $title, string $description)
-    {
-        $this->id = $id;
-        $this->title = $title;
-        $this->description = $description;
-    }
-
-    // Getter pour l'ID
+    // Getters et setters
     public function getId(): int
     {
         return $this->id;
     }
 
-    // Setter pour l'ID
-    public function setId(int $id): void
+    public function setId(int $id): self
     {
         $this->id = $id;
+        return $this;
     }
 
-    // Getter pour le titre
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    // Setter pour le titre
-    public function setTitle(string $title): void
+    public function setTitle(string $title): self
     {
         $this->title = $title;
+        return $this;
     }
 
-    // Getter pour la description
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    // Setter pour la description
-    public function setDescription(string $description): void
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
+        return $this;
     }
 }

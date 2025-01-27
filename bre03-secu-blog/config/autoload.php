@@ -1,27 +1,29 @@
 <?php
+
 /**
+ * Autoloader pour charger automatiquement les classes.
  * @author : Gaellan
  * @link : https://github.com/Gaellan
  */
 
-/* MODELS */
-require "models/Category.php";
-require "models/User.php";
-require "models/Post.php";
-require "models/Comment.php";
+spl_autoload_register(function ($class) {
+    // Liste des répertoires où chercher les fichiers
+    $directories = [
+        __DIR__ . '/../models/',       // Répertoire des modèles
+        __DIR__ . '/../managers/',     // Répertoire des managers
+        __DIR__ . '/../controllers/', // Répertoire des contrôleurs
+        __DIR__ . '/../services/'      // Répertoire des services
+    ];
 
-/* MANAGERS */
-require "managers/AbstractManager.php";
-require "managers/CategoryManager.php";
-require "managers/UserManager.php";
-require "managers/PostManager.php";
-require "managers/CommentManager.php";
+    // Rechercher dans chaque répertoire
+    foreach ($directories as $directory) {
+        $file = $directory . $class . '.php';
+        if (file_exists($file)) {
+            require_once $file;
+            return;
+        }
+    }
 
-/* CONTROLLERS */
-require "controllers/AbstractController.php";
-require "controllers/AuthController.php";
-require "controllers/BlogController.php";
-
-/* SERVICES */
-require "services/CSRFTokenManager.php";
-require "services/Router.php";
+    // Si la classe n'est pas trouvée
+    die("Impossible de charger la classe : $class");
+});

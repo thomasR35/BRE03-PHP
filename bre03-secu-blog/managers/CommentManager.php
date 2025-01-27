@@ -4,6 +4,7 @@
  * @author : Gaellan
  * @link : https://github.com/Gaellan
  */
+
 require_once 'AbstractManager.php';
 require_once 'Comment.php';
 require_once 'User.php';
@@ -31,8 +32,7 @@ class CommentManager extends AbstractManager
         $comments = [];
         foreach ($results as $result) {
             $author = new User($result['user_id'], $result['username'], '', '', '', new DateTime());
-            $post = new Post($postId, '', '', '', new DateTime(), new User(0, '', '', '', '', new DateTime()));
-            $comments[] = new Comment($result['id'], $result['content'], $post, $author);
+            $comments[] = new Comment($result['id'], $result['content'], null, $author);
         }
 
         return $comments;
@@ -46,9 +46,9 @@ class CommentManager extends AbstractManager
              VALUES (:content, :postId, :userId)
          ");
         $query->execute([
-            'content' => $comment->content,
-            'postId' => $comment->post->id,
-            'userId' => $comment->author->id
+            'content' => $comment->Getcontent(),
+            'postId' => $comment->Getpost()->Getid(),
+            'userId' => $comment->Getauthor()->Getid()
         ]);
     }
 }

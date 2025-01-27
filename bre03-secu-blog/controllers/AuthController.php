@@ -43,11 +43,11 @@ class AuthController extends AbstractController
             // Recherche de l'utilisateur par email
             $user = $this->userManager->findByEmail($email);
 
-            if ($user && password_verify($password, $user->password)) {
+            if ($user && password_verify($password, $user->Getpassword())) {
                 // Mot de passe valide, on démarre une session
                 session_start();
-                $_SESSION['user_id'] = $user->id;
-                $_SESSION['username'] = $user->username;
+                $_SESSION['user_id'] = $user->Getid();
+                $_SESSION['username'] = $user->Getusername();
 
                 // Redirige vers la page d'accueil
                 $this->redirect("index.php");
@@ -103,8 +103,8 @@ class AuthController extends AbstractController
 
             // Connecte l'utilisateur directement après l'inscription
             session_start();
-            $_SESSION['user_id'] = $user->id;
-            $_SESSION['username'] = $user->username;
+            $_SESSION['user_id'] = $user->Getid();
+            $_SESSION['username'] = $user->Getusername();
 
             // Redirige vers la page d'accueil
             $this->redirect("index.php");

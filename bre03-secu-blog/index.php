@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author : Gaellan
  * @link : https://github.com/Gaellan
@@ -6,7 +7,7 @@
 
 session_start();
 
-require "config/autoload.php";
+require_once __DIR__ . '/config/autoload.php';
 
 $router = new Router();
 

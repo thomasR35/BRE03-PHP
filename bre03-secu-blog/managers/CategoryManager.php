@@ -5,9 +5,6 @@
  * @link : https://github.com/Gaellan
  */
 
-require_once 'AbstractManager.php';
-require_once 'Category.php';
-
 class CategoryManager extends AbstractManager
 {
     public function __construct()

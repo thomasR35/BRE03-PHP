@@ -4,8 +4,6 @@
  * @author : Gaellan
  * @link : https://github.com/Gaellan
  */
-require_once 'AbstractManager.php';
-require_once 'User.php';
 
 class UserManager extends AbstractManager
 {
@@ -43,11 +41,11 @@ class UserManager extends AbstractManager
              VALUES (:username, :email, :password, :role, :createdAt)
          ");
         $query->execute([
-            'username' => $user->username,
-            'email' => $user->email,
-            'password' => $user->password, // Hash du mot de passe à effectuer avant l'appel
-            'role' => $user->role,
-            'createdAt' => $user->createdAt->format('Y-m-d H:i:s')
+            'username' => $user->Getusername(),
+            'email' => $user->Getemail(),
+            'password' => $user->Getpassword(), // Hash du mot de passe à effectuer avant l'appel
+            'role' => $user->Getrole(),
+            'createdAt' => $user->GetcreatedAt()->format('Y-m-d H:i:s')
         ]);
     }
 }

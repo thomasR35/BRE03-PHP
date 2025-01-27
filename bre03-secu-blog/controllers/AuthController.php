@@ -16,12 +16,16 @@ class AuthController extends AbstractController
 
     public function login(): void
     {
-        // Récupérer le token CSRF depuis la session
-        $csrfToken = $_SESSION['csrf_token'] ?? null;
+        // Générer un token CSRF s'il n'existe pas
+        if (!isset($_SESSION['csrf_token'])) {
+            $csrfTokenManager = new CSRFTokenManager();
+            $_SESSION['csrf_token'] = $csrfTokenManager->generateCSRFToken();
+        }
 
         // Afficher la vue en passant le token
-        $this->render("login", ['csrf_token' => $csrfToken]);
+        $this->render("login", ['csrf_token' => $_SESSION['csrf_token']]);
     }
+
 
     public function checkLogin(): void
     {

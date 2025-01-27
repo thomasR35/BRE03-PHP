@@ -15,7 +15,7 @@ class User
     private DateTime $createdAt;
 
     // Getters et setters
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }

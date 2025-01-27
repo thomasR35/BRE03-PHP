@@ -16,12 +16,10 @@ class AuthController extends AbstractController
 
     public function login(): void
     {
-        $csrfTokenManager = new CSRFTokenManager();
-        $csrfToken = $csrfTokenManager->generateCSRFToken();
+        // Récupérer le token CSRF depuis la session
+        $csrfToken = $_SESSION['csrf_token'] ?? null;
 
-        // Stocker le token dans la session pour validation ultérieure
-        $_SESSION['csrf_token'] = $csrfToken;
-
+        // Afficher la vue en passant le token
         $this->render("login", ['csrf_token' => $csrfToken]);
     }
 
@@ -33,7 +31,7 @@ class AuthController extends AbstractController
         $csrfTokenManager = new CSRFTokenManager();
 
         // Valider le token CSRF
-        if (empty($_POST['csrf-token']) || !$csrfTokenManager->validateCSRFToken($_POST['csrf-token'])) {
+        if (!isset($_SESSION['csrf_token']) || !$csrfTokenManager->validateCSRFToken($_POST['csrf-token'])) {
             $this->redirect("index.php?route=login&error=csrf");
             return;
         }
@@ -65,27 +63,29 @@ class AuthController extends AbstractController
 
     public function register(): void
     {
-        $csrfTokenManager = new CSRFTokenManager();
-        $csrfToken = $csrfTokenManager->generateCSRFToken();
+        // Récupérer le token CSRF depuis la session
+        $csrfToken = $_SESSION['csrf_token'] ?? null;
 
-        // Stocker le token dans la session
-        $_SESSION['csrf_token'] = $csrfToken;
-
+        // Afficher la vue en passant le token
         $this->render("register", ['csrf_token' => $csrfToken]);
     }
 
     public function checkRegister(): void
     {
         // Récupérer les données du formulaire
-        $username = htmlspecialchars($_POST['username'] ?? null);
-        $email = htmlspecialchars($_POST['email'] ?? null);
-        $password = htmlspecialchars($_POST['password'] ?? null);
-        $confirmPassword = htmlspecialchars($_POST['confirm_password'] ?? null);
+        $username = $_POST['username'] ?? null;
+        $email = $_POST['email'] ?? null;
+        $password = $_POST['password'] ?? null;
+        $confirmPassword = $_POST['confirm_password'] ?? null;
         $csrfTokenManager = new CSRFTokenManager();
 
         // Valider le token CSRF
         if (empty($_POST['csrf-token']) || !$csrfTokenManager->validateCSRFToken($_POST['csrf-token'])) {
             $this->redirect("index.php?route=login&error=csrf");
+            return;
+        }
+        if (!isset($_SESSION['csrf_token'])) {
+            $this->redirect("index.php?route=login&error=session_expired");
             return;
         }
         // Validation des données
@@ -120,7 +120,7 @@ class AuthController extends AbstractController
         $user = (new User())
             ->setUsername($username)
             ->setEmail($email)
-            ->setPassword($password) // Le hash est géré dans UserManager
+            ->setPassword(password_hash($password, PASSWORD_BCRYPT))
             ->setRole('user') // Par défaut, les utilisateurs sont de rôle "user"
             ->setCreatedAt(new DateTime());
 
@@ -140,6 +140,9 @@ class AuthController extends AbstractController
 
     public function logout(): void
     {
+        // Effacer toutes les variables de session
+        $_SESSION = [];
+
         // Détruire la session
         session_destroy();
 

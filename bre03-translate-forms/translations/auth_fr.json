@@ -1,0 +1,16 @@
+{
+  "site_title": "Formulaires traduits",
+  "nav_login_link": "Connexion",
+  "nav_register_link": "Créer un compte",
+  "nav_switch_link": "Changer de langue",
+  "login_email_label": "Email",
+  "login_password_label": "Mot de passe",
+  "login_submit_button": "Connexion",
+  "login_register_text": "Vous n'avez pas encore de compte ?",
+  "login_link_text": "Créer un compte",
+  "register_username_text": "Choisissez un nom d'utilisateur",
+  "register_email_text": "Email",
+  "register_password_text": "Choisissez votre Mot de Passes",
+  "register_confirm_password_text": "Confirmer votre mot de passe",
+  "register_already_account": "Vous avez déjà un compte ?"
+}

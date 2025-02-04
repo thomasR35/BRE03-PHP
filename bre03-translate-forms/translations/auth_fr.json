@@ -8,9 +8,10 @@
   "login_submit_button": "Connexion",
   "login_register_text": "Vous n'avez pas encore de compte ?",
   "login_link_text": "Créer un compte",
-  "register_username_text": "Choisissez un nom d'utilisateur",
+  "register_username_text": "Entrer un nom d'utilisateur",
   "register_email_text": "Email",
-  "register_password_text": "Choisissez votre Mot de Passes",
+  "register_password_text": "Entrer votre mot de passe",
   "register_confirm_password_text": "Confirmer votre mot de passe",
+  "register_submit_button": "S'inscrire",
   "register_already_account": "Vous avez déjà un compte ?"
 }

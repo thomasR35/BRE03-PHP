@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<psalm
+    errorLevel="6"
+    resolveFromConfigFile="true"
+    findUnusedBaselineEntry="false"
+    findUnusedCode="false"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+>
+    <projectFiles>
+        <directory name="src" />
+    </projectFiles>
+
+    <issueHandlers>
+        <!-- Psalm does not understand classes/interfaces defined inside if (false) {} -->
+        <!-- https://github.com/vimeo/psalm/issues/5750 -->
+        <UnrecognizedStatement>
+            <errorLevel type="suppress">
+                <file name="src/Behat/Behat/HelperContainer/ContainerInterface.php" />
+                <file name="src/Behat/Behat/HelperContainer/Exception/ContainerException.php" />
+                <file name="src/Behat/Behat/HelperContainer/Exception/NotFoundException.php" />
+            </errorLevel>
+        </UnrecognizedStatement>
+
+        <!-- Suppress errors related to legacy PHPUnit classes -->
+        <UndefinedClass>
+            <errorLevel type="suppress">
+                <referencedClass name="PHPUnit_Framework_Exception" />
+                <referencedClass name="PHPUnit_Framework_TestFailure" />
+            </errorLevel>
+        </UndefinedClass>
+
+        <!-- Suppress false positives in Symfony legacy layer -->
+        <ParamNameMismatch>
+            <errorLevel type="suppress">
+                <file name="src/Behat/Testwork/EventDispatcher/TestworkEventDispatcherSymfonyLegacy.php" />
+            </errorLevel>
+        </ParamNameMismatch>
+        <MethodSignatureMismatch>
+            <errorLevel type="suppress">
+                <file name="src/Behat/Testwork/EventDispatcher/TestworkEventDispatcherSymfonyLegacy.php" />
+                <file name="src/Behat/Testwork/EventDispatcher/TestworkEventDispatcherSymfony5.php" />
+            </errorLevel>
+        </MethodSignatureMismatch>
+        <InvalidArgument>
+            <errorLevel type="suppress">
+                <file name="src/Behat/Testwork/EventDispatcher/TestworkEventDispatcher.php" />
+                <file name="src/Behat/Testwork/EventDispatcher/TestworkEventDispatcherSymfony5.php" />
+            </errorLevel>
+        </InvalidArgument>
+        <InvalidMethodCall>
+            <errorLevel type="suppress">
+                <file name="src/Behat/Testwork/EventDispatcher/TestworkEventDispatcherSymfonyLegacy.php" />
+            </errorLevel>
+        </InvalidMethodCall>
+        <InvalidReturnStatement>
+            <errorLevel type="suppress">
+                <file name="src/Behat/Testwork/EventDispatcher/TestworkEventDispatcherSymfony5.php" />
+                <file name="src/Behat/Testwork/EventDispatcher/TestworkEventDispatcherSymfonyLegacy.php" />
+            </errorLevel>
+        </InvalidReturnStatement>
+        <InvalidReturnType>
+            <errorLevel type="suppress">
+                <file name="src/Behat/Testwork/EventDispatcher/TestworkEventDispatcherSymfony5.php" />
+                <file name="src/Behat/Testwork/EventDispatcher/TestworkEventDispatcherSymfonyLegacy.php" />
+            </errorLevel>
+        </InvalidReturnType>
+        <UndefinedMethod>
+            <errorLevel type="suppress">
+                <file name="src/Behat/Testwork/EventDispatcher/TestworkEventDispatcherSymfonyLegacy.php" />
+            </errorLevel>
+        </UndefinedMethod>
+    </issueHandlers>
+
+</psalm>
